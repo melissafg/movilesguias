@@ -1,38 +1,33 @@
 package com.example.guias
-
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-
+import android.util.Log
+import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
-
-    private val redBtn : Button
-        get() = findViewById(R.id.red_btn)
-
-    private val whiteBtn : Button
-        get() = findViewById(R.id.white_btn)
-
-    private val layoutPrincipal : ConstraintLayout
-        get() = findViewById(R.id.layout_main)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        redBtn.setOnClickListener{
-            toast("Rojo")
-            layoutPrincipal.setBackgroundColor(Color.RED)
-        }
+        val restApiAdapter = RestApiAdapter()
+        val endPointApi = restApiAdapter.connexionApi()
+        val bookResponse  = endPointApi.getAllPost()
 
-        whiteBtn.setOnClickListener{
-            toast("Blanco")
-            layoutPrincipal.setBackgroundColor(Color.WHITE)
-        }
+        bookResponse.enqueue( object : Callback<List<Post>> {
+            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
+                t?.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>){
+                val posts = response?.body()
+                Log.d("REST POST", Gson().toJson(posts))
+                posts?.forEach {
+                    Log.d("RESP POST", it.body)
+                }
+            }
+        })
     }
-    private fun toast(text: String, duration: Int = Toast.LENGTH_LONG)=
-        Toast.makeText(this@MainActivity, text, Toast.LENGTH_LONG).show()
 }
