@@ -1,38 +1,27 @@
 package com.example.guias
-
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-
+import android.util.Log
+import android.widget.TextView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
-
-    private val redBtn : Button
-        get() = findViewById(R.id.red_btn)
-
-    private val whiteBtn : Button
-        get() = findViewById(R.id.white_btn)
-
-    private val layoutPrincipal : ConstraintLayout
-        get() = findViewById(R.id.layout_main)
-
+    companion object {
+        val TAG : String = MainActivity::class.java.simpleName
+    }
+    lateinit var swipeToRefresLayout : SwipeRefreshLayout
+    lateinit var message_text_view : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        redBtn.setOnClickListener{
-            toast("Rojo")
-            layoutPrincipal.setBackgroundColor(Color.RED)
-        }
-
-        whiteBtn.setOnClickListener{
-            toast("Blanco")
-            layoutPrincipal.setBackgroundColor(Color.WHITE)
+        swipeToRefresLayout = findViewById(R.id.swipeToRefresLayout)
+        message_text_view = findViewById(R.id.message_text_view)
+        swipeToRefresLayout.setOnRefreshListener {
+            message_text_view.text = Random().nextInt(100).toString()
+            swipeToRefresLayout.isRefreshing = false
+            Log.d(TAG, message_text_view.text.toString())
         }
     }
-    private fun toast(text: String, duration: Int = Toast.LENGTH_LONG)=
-        Toast.makeText(this@MainActivity, text, Toast.LENGTH_LONG).show()
 }
