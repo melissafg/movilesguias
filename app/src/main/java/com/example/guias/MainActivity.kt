@@ -11,13 +11,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 class MainActivity : AppCompatActivity() {
 
     private val redBtn : Button
-        get() = findViewById(R.id.red_btn)
+        get() = findViewById(R.id.btnRed)
 
     private val whiteBtn : Button
-        get() = findViewById(R.id.white_btn)
+        get() = findViewById(R.id.btnWhite)
 
     private val layoutPrincipal : ConstraintLayout
-        get() = findViewById(R.id.layout_main)
+        get() = findViewById(R.id.layoutPrincipal)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
