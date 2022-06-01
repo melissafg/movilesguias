@@ -8,8 +8,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportActionBar.let { it?.setDisplayHomeAsUpEnabled(true)
-            it?.setDisplayShowHomeEnabled(true)
+        supportActionBar.let {
+
         }
     }
 }
