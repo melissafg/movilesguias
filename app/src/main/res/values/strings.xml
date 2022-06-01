@@ -1,7 +1,4 @@
 <resources>
-    <string name="app_name">Colores</string>
-    <string name="description_label">Cambio de Colores</string>
-    <string name="btn_red_label">Rojo</string>
-    <string name="btn_white_label">Blanco</string>
-
+    <string name="app_name">Guia15</string>
+    <string name="btn_sc">Internet</string>
 </resources>

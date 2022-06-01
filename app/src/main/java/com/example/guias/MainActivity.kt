@@ -1,38 +1,30 @@
 package com.example.guias
 
-import android.graphics.Color
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    private val redBtn : Button
-        get() = findViewById(R.id.red_btn)
-
-    private val whiteBtn : Button
-        get() = findViewById(R.id.white_btn)
-
-    private val layoutPrincipal : ConstraintLayout
-        get() = findViewById(R.id.layout_main)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        redBtn.setOnClickListener{
-            toast("Rojo")
-            layoutPrincipal.setBackgroundColor(Color.RED)
-        }
-
-        whiteBtn.setOnClickListener{
-            toast("Blanco")
-            layoutPrincipal.setBackgroundColor(Color.WHITE)
+        btnSC.setOnClickListener {
+            if (isConexion(applicationContext)) {
+                Toast.makeText(this, "Tiene acceso a internet", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "No tiene acceso a internet", Toast.LENGTH_LONG).show()
+            }
         }
     }
-    private fun toast(text: String, duration: Int = Toast.LENGTH_LONG)=
-        Toast.makeText(this@MainActivity, text, Toast.LENGTH_LONG).show()
+
+    fun isConexion(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        return activeNetwork?.isConnectedOrConnecting == true
+    }
 }
