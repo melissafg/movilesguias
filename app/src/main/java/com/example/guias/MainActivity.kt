@@ -1,38 +1,32 @@
 package com.example.guias
 
-import android.graphics.Color
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.media.RingtoneManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-
+import android.view.View
+import androidx.core.app.NotificationCompat
 
 class MainActivity : AppCompatActivity() {
-
-    private val redBtn : Button
-        get() = findViewById(R.id.red_btn)
-
-    private val whiteBtn : Button
-        get() = findViewById(R.id.white_btn)
-
-    private val layoutPrincipal : ConstraintLayout
-        get() = findViewById(R.id.layout_main)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        redBtn.setOnClickListener{
-            toast("Rojo")
-            layoutPrincipal.setBackgroundColor(Color.RED)
-        }
-
-        whiteBtn.setOnClickListener{
-            toast("Blanco")
-            layoutPrincipal.setBackgroundColor(Color.WHITE)
-        }
     }
-    private fun toast(text: String, duration: Int = Toast.LENGTH_LONG)=
-        Toast.makeText(this@MainActivity, text, Toast.LENGTH_LONG).show()
+
+    fun notificacionInterna(view: View) {
+        val i = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_ONE_SHOT)
+        val sonido = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val notification = NotificationCompat.Builder(this)
+            .setContentTitle("Notificación")
+            .setContentText("Notificaciones Internas")
+            .setSound(sonido)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(0, notification.build())
+    }
 }
